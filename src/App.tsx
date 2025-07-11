@@ -1,13 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
+/** biome-ignore-all assist/source/organizeImports: <explanation> */
 import './App.css';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
-import { Blog } from './pages/Blog';
+import { Posts } from './pages/Posts';
 import { NotFound } from './pages/NotFound';
-import { Link } from 'react-router-dom';
 import { Layout } from './pages/Layout';
+import { BlogWithTitle } from './pages/BlogWithTitle';
+import { Post } from './pages/Post';
 
 function App() {
   return (
@@ -17,7 +17,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
-            <Route path="blog" element={<Blog />} />
+            <Route path="posts" element={<Posts />} />
+            <Route path="posts/:id" element={<Post />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

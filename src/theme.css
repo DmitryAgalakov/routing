@@ -1,0 +1,14 @@
+:root {
+  /* Основные цвета */
+  --bg-dark: #121212;
+  --surface-dark: #1e1e1e;
+  --text-primary-dark: #e0e0e0;
+
+  --border: #3d444d;
+  /* Акцентные цвета */
+  --primary-accent: #bb86fc;
+  --secondary-accent: #03dac6;
+  --error: #cf6679;
+  --text-header: #6c77d5;
+  --text: #cacaca;
+}

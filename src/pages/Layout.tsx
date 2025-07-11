@@ -1,17 +1,35 @@
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
-interface Props {}
+const headerHeight = 100;
+const footerHeight = 100;
 
-export function Layout(props: Props) {
+export function Layout() {
   return (
-    <div>
-      <header className="App-header">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/blog">blog</Link>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
+      <header
+        className="app-header"
+        style={{
+          height: `${headerHeight}px`,
+          minHeight: `${headerHeight}px`,
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '16px',
+        }}
+      >
+        <NavLink to="/" className="nav-link">
+          Home
+        </NavLink>
+        <NavLink to="/about" className="nav-link">
+          About
+        </NavLink>
+        <NavLink to="/posts" className="nav-link">
+          Posts
+        </NavLink>
       </header>
-      <Outlet />
-      <footer>footer</footer>
+      <div style={{ display: 'flex', width: '100%', height: `calc(100% - ${footerHeight + headerHeight}px)` }}>
+        <Outlet />
+      </div>
+      <footer style={{ display: 'flex', height: `${footerHeight}px` }}>footer</footer>
     </div>
   );
 }
