@@ -1,9 +1,11 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 const headerHeight = 100;
 const footerHeight = 100;
 
 export function Layout() {
+  const navigate = useNavigate();
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
       <header
@@ -29,7 +31,11 @@ export function Layout() {
       <div style={{ display: 'flex', width: '100%', height: `calc(100% - ${footerHeight + headerHeight}px)` }}>
         <Outlet />
       </div>
-      <footer style={{ display: 'flex', height: `${footerHeight}px` }}>footer</footer>
+      <footer style={{ display: 'flex', height: `${footerHeight}px`, justifyContent: 'center' }}>
+        <button type="button" onClick={() => navigate(-1)} className="base-button">
+          Go back
+        </button>
+      </footer>
     </div>
   );
 }

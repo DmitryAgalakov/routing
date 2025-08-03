@@ -1,6 +1,6 @@
 /** biome-ignore-all assist/source/organizeImports: <explanation> */
 import './App.css';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Posts } from './pages/Posts';
@@ -17,6 +17,8 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            {/* Переадресация */}
+            <Route path="about-us" element={<Navigate to={'/about'} replace />} />
             <Route path="posts" element={<Posts />} />
             <Route path="posts/:id" element={<Post />} />
             <Route path="*" element={<NotFound />} />
