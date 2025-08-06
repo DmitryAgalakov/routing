@@ -8,24 +8,39 @@ import { NotFound } from './pages/NotFound';
 import { Layout } from './pages/Layout';
 import { BlogWithTitle } from './pages/BlogWithTitle';
 import { Post } from './pages/Post';
+import { Login } from './pages/Login';
+import { CreatePost } from './pages/CreatePost';
+import { RequireAuth } from './hoc/RequireAuth';
+import { AuthProvider } from './hoc/AuthProvider';
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
-            {/* Переадресация */}
-            <Route path="about-us" element={<Navigate to={'/about'} replace />} />
-            <Route path="posts" element={<Posts />} />
-            <Route path="posts/:id" element={<Post />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <AuthProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              {/* Переадресация */}
+              <Route path="about-us" element={<Navigate to={'/about'} replace />} />
+              <Route path="posts" element={<Posts />} />
+              <Route
+                path="create-post"
+                element={
+                  <RequireAuth>
+                    <CreatePost />
+                  </RequireAuth>
+                }
+              />
+              <Route path="posts/:id" element={<Post />} />
+              <Route path="login" element={<Login />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </AuthProvider>
   );
 }
 

@@ -1,10 +1,9 @@
-
-interface Props {
-
-}
+interface Props {}
 
 export function About(props: Props) {
   return (
-    <div>About</div>
+    <div>
+      <h1>About</h1>
+    </div>
   );
 }

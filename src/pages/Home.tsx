@@ -1,10 +1,9 @@
-
-interface Props {
-
-}
+interface Props {}
 
 export function Home(props: Props) {
   return (
-    <div>Home</div>
+    <div>
+      <h1>Home</h1>
+    </div>
   );
 }
