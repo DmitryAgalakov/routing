@@ -1,19 +1,12 @@
-import { FormEvent, useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import type { IPost } from '../models';
+// biome-ignore assist/source/organizeImports: <explanation>
+import { Await, defer, Link, useLoaderData, useSearchParams } from 'react-router-dom';
+import { Suspense, type FormEvent } from 'react';
 
 export function Posts() {
-  const [posts, setPosts] = useState<IPost[]>([]);
-
+  const { posts } = useLoaderData() as any;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const postParam = searchParams.get('post') || '';
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  }, []);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -32,19 +25,52 @@ export function Posts() {
       </form>
 
       <div style={{ height: 'calc(100% - 50px)', width: '100%', overflow: 'hidden scroll', paddingLeft: '48px' }}>
-        {posts
-          .filter((post) => post.title.includes(postParam))
-          .map((post) => (
-            <Link key={post.id} to={`/posts/${post.id}`}>
-              <div
-                style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '16px', marginTop: '8px' }}
-              >
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'white' }}></div>
-                <span style={{ color: '#cacaca', fontSize: '1rem', textTransform: 'capitalize' }}>{post.title}</span>
-              </div>
-            </Link>
-          ))}
+        <Suspense fallback={<h2 style={{ color: 'white', marginTop: '16px' }}>Loading...</h2>}>
+          <Await resolve={posts}>
+            {(resolvedPosts) => (
+              <>
+                {/* 
+                Рендер функция. 
+                Можно вместо неё использовать компонент смотри как реализовано в <Post/>
+               */}
+                {resolvedPosts
+                  .filter((post: any) => post.title.includes(postParam))
+                  .map((post: any) => (
+                    <Link key={post.id} to={`/posts/${post.id}`}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          gap: '16px',
+                          marginTop: '8px',
+                        }}
+                      >
+                        <div
+                          style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'white' }}
+                        ></div>
+                        <span style={{ color: '#cacaca', fontSize: '1rem', textTransform: 'capitalize' }}>
+                          {post.title}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+              </>
+            )}
+          </Await>
+        </Suspense>
       </div>
     </div>
   );
 }
+
+async function getPosts() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  return res.json();
+}
+
+export const postsLoader = async () => {
+  return defer({
+    posts: getPosts(),
+  });
+};
