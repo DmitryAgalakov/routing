@@ -18,10 +18,11 @@ import { Login } from './pages/Login';
 import { CreatePost } from './pages/CreatePost';
 import { RequireAuth } from './hoc/RequireAuth';
 import { AuthProvider } from './hoc/AuthProvider';
+import { ErrorInfo } from './pages/ErrorInfo';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<Layout />} errorElement={<ErrorInfo />}>
       <Route index element={<Home />} />
       <Route path="about/*" element={<About />}>
         <Route path="contacts" element={<span>Route with our contacts.</span>} />

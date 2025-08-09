@@ -66,6 +66,18 @@ export function Posts() {
 
 async function getPosts() {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+
+  if (!res.ok) {
+    throw new Response('', { status: res.status, statusText: 'Not found' });
+    // Или можно использовать throw json().
+    // throw json(
+    //   {
+    //     message: "My error message.",
+    //   },
+    //   { status: 401 }
+    // );
+  }
+
   return res.json();
 }
 
